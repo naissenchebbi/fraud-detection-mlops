@@ -49,7 +49,7 @@ print(f"AUC-ROC : {roc_auc_score(y_test, y_proba):.4f}")
 print("\nMatrice de confusion :")
 print(confusion_matrix(y_test, y_pred))
 
-joblib.dump(model,'faud_mdoel.pkl')
+joblib.dump(model, 'fraud_model.pkl')
 joblib.dump(scaler,'scaler.pkl')
 
 print("\n✅ Modèle et scaler sauvegardés avec succès.")
