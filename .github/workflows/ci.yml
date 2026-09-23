@@ -31,6 +31,16 @@ jobs:
         python -m py_compile train_random_forest.py
         python -m py_compile train_lr_knn.py
 
+    - name: Generate model artifacts
+      run: |
+        python train_model.py
+
+    - name: Verify model artifacts
+      run: |
+        test -f fraud_model.pkl
+        test -f scaler.pkl
+        ls -lh fraud_model.pkl scaler.pkl
+
     - name: Verify Docker build
       run: |
         docker build -t fraud-api-test .
