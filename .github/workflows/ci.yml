@@ -2,48 +2,50 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
 
-    - name: Install dependencies
-      run: |
-        pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Check Python syntax
-      run: |
-        python -m py_compile app.py
-        python -m py_compile train_model.py
-        python -m py_compile train_random_forest.py
-        python -m py_compile train_lr_knn.py
+      - name: Check Python syntax
+        run: |
+          python -m py_compile app.py
+          python -m py_compile train_model.py
+          python -m py_compile train_random_forest.py
+          python -m py_compile train_lr_knn.py
 
-    - name: Generate model artifacts
-      run: |
-        python train_model.py
+      - name: Generate model artifacts
+        env:
+          FRAUD_DATA_PATH: sample_data.csv
+        run: |
+          python train_model.py
 
-    - name: Verify model artifacts
-      run: |
-        test -f fraud_model.pkl
-        test -f scaler.pkl
-        ls -lh fraud_model.pkl scaler.pkl
+      - name: Verify model artifacts
+        run: |
+          test -f fraud_model.pkl
+          test -f scaler.pkl
+          ls -lh fraud_model.pkl scaler.pkl
 
-    - name: Verify Docker build
-      run: |
-        docker build -t fraud-api-test .
+      - name: Verify Docker build
+        run: |
+          docker build -t fraud-api-test .
 
-    - name: Success message
-      run: echo "✅ All checks passed!"
+      - name: Success message
+        run: echo "✅ All checks passed!"

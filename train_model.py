@@ -6,9 +6,11 @@ from xgboost import XGBClassifier
 from sklearn.metrics import accuracy_score, classification_report,confusion_matrix,roc_auc_score
 from imblearn.over_sampling import SMOTE
 import joblib
+import os
 
 print("chargement des données")
-df=pd.read_csv('creditcard.csv')
+DATA_PATH = os.getenv("FRAUD_DATA_PATH", "creditcard.csv")
+df = pd.read_csv(DATA_PATH)
 print(f"dataset chargé:{len(df)} transactions")
 print(F"Fraudes: {df['Class'].sum()} (df{df['Class'].sum()/len(df)*100:.3f}%)")
 
