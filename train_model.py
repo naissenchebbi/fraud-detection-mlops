@@ -9,7 +9,7 @@ import joblib
 import os
 
 print("chargement des données")
-DATA_PATH = os.getenv("FRAUD_DATA_PATH", "creditcard.csv")
+DATA_PATH = os.getenv("FRAUD_DATA_PATH", "sample_data.csv")
 df = pd.read_csv(DATA_PATH)
 print(f"dataset chargé:{len(df)} transactions")
 print(F"Fraudes: {df['Class'].sum()} (df{df['Class'].sum()/len(df)*100:.3f}%)")

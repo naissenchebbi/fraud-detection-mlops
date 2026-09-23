@@ -6,8 +6,11 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app.py .
-COPY fraud_model.pkl .
-COPY scaler.pkl .
+COPY train_model.py .
+COPY sample_data.csv .
+
+# Generate model artifacts during build
+RUN python train_model.py
 
 EXPOSE 8000
 
